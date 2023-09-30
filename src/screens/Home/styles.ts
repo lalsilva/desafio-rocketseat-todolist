@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
         marginRight: 8,
         color: "#F2F2F2",
         fontSize: 16,
+        fontFamily: "Inter-Regular",
         borderWidth: 1,
         borderColor: "#0D0D0D",
         borderRadius: 6,
@@ -49,10 +50,10 @@ export const styles = StyleSheet.create({
         fontSize: 14,
     },
     createDoneCounter: {
-        color: "#F2F2F2",
-        fontSize: 12,
         paddingVertical: 2,
         paddingHorizontal: 8,
+        color: "#F2F2F2",
+        fontSize: 12,
         marginLeft: 8,
         borderRadius: 10,
         backgroundColor: "#333",
@@ -72,8 +73,9 @@ export const styles = StyleSheet.create({
     },
     emptyListText: {
         color: "#808080",
+        fontFamily: "Inter-Regular",
     },
     bold: {
-        fontWeight: "bold",
+        fontFamily: "Inter-Bold",
     },
 });
