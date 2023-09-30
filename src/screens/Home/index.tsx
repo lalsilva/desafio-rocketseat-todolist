@@ -6,15 +6,15 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
-import { styles } from "./styles";
 import { useState } from "react";
+
+import { Task } from "../../components/Task";
+import { stylesDefault } from "../../styles";
+import { styles } from "./styles";
 
 const Logo = require("../../../assets/logo.png");
 const BtnAdd = require("../../../assets/btn-add.png");
 const ListEmptyIcon = require("../../../assets/list-empty-icon.png");
-const TaskIconClosed = require("../../../assets/task-icon-closed.png");
-const TrashIcon = require("../../../assets/trash-icon.png");
 
 export function Home() {
   const [buttonAdPressed, setButtonAddPressed] = useState(false);
@@ -46,7 +46,7 @@ export function Home() {
 
       <View style={styles.content}>
         {/* Campo e botão adicionar */}
-        <View style={styles.row}>
+        <View style={stylesDefault.row}>
           <TextInput
             style={styles.input}
             placeholder="Adicione uma nova tarefa"
@@ -67,57 +67,38 @@ export function Home() {
         {/* Criadas (n) / Concluídas (n)*/}
         <View
           style={[
-            styles.row,
+            stylesDefault.row,
             styles.createDone,
-            tasks.length > 0 ? styles.noBorder : null,
+            tasks.length > 0 ? stylesDefault.noBorder : null,
           ]}
         >
           {/* Criadas */}
-          <View style={styles.row}>
-            <Text style={[styles.createText, styles.bold]}>Criadas</Text>
-            <Text style={[styles.createDoneCounter, styles.bold]}>0</Text>
+          <View style={stylesDefault.row}>
+            <Text style={[styles.createText, stylesDefault.bold]}>Criadas</Text>
+            <Text style={[styles.createDoneCounter, stylesDefault.bold]}>
+              0
+            </Text>
           </View>
           {/* Concluídas */}
-          <View style={styles.row}>
-            <Text style={[styles.doneText, styles.bold]}>Concluídas</Text>
-            <Text style={[styles.createDoneCounter, styles.bold]}>0</Text>
+          <View style={stylesDefault.row}>
+            <Text style={[styles.doneText, stylesDefault.bold]}>
+              Concluídas
+            </Text>
+            <Text style={[styles.createDoneCounter, stylesDefault.bold]}>
+              0
+            </Text>
           </View>
         </View>
         {/* Lista de tarefas */}
         <FlatList
           data={tasks}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.task}>
-              <View style={[styles.row, styles.taskRow]}>
-                <TouchableOpacity>
-                  {!item.closed ? (
-                    <View
-                      style={[styles.taskIcon, styles.taskIconOpened]}
-                    ></View>
-                  ) : (
-                    <Image style={styles.taskIcon} source={TaskIconClosed} />
-                  )}
-                </TouchableOpacity>
-                <Text
-                  style={[
-                    styles.taskDescription,
-                    item.closed ? styles.taskDescriptionClosed : null,
-                  ]}
-                >
-                  {item.description}
-                </Text>
-                <TouchableOpacity style={styles.taskRemove}>
-                  <Image source={TrashIcon} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
+          renderItem={({ item }) => <Task item={item} />}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={() => (
             <View style={styles.emptyList}>
               <Image style={styles.emptyListIcon} source={ListEmptyIcon} />
-              <Text style={[styles.emptyListText, styles.bold]}>
+              <Text style={[styles.emptyListText, stylesDefault.bold]}>
                 Você ainda não tem tarefas cadastradas
               </Text>
               <Text style={styles.emptyListText}>
