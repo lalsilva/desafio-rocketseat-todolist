@@ -30,6 +30,7 @@ export const styles = StyleSheet.create({
         color: "#F2F2F2",
         fontSize: 14,
         fontFamily: "Inter-Regular",
+        lineHeight: 19.6
     },
     taskDescriptionClosed: {
         color: "#808080",
