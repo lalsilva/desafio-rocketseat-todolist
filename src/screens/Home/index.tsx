@@ -17,7 +17,7 @@ const BtnAdd = require("../../../assets/btn-add.png");
 const ListEmptyIcon = require("../../../assets/list-empty-icon.png");
 
 export function Home() {
-  const [buttonAdPressed, setButtonAddPressed] = useState(false);
+  const [buttonAddPressed, setButtonAddPressed] = useState(false);
 
   const tasks: Array<any> | null | undefined = [
     {
@@ -55,7 +55,7 @@ export function Home() {
           <TouchableOpacity
             style={[
               styles.buttonAdd,
-              buttonAdPressed ? styles.buttonAddPressed : null,
+              buttonAddPressed ? styles.buttonAddPressed : null,
             ]}
             activeOpacity={1}
             onPressIn={handleButtonAddPressInOut}
