@@ -8,13 +8,20 @@ import {
 } from "react-native";
 
 import { styles } from "./styles";
+import { useState } from "react";
 
 const LogoPNG = require("../../../assets/logo.png");
 const BtnAddPNG = require("../../../assets/btn-add.png");
 const ListEmptyIconPNG = require("../../../assets/list-empty-icon.png");
 
 export function Home() {
+  const [buttonAdPressed, setButtonAddPressed] = useState(false);
+
   const tasks: Array<any> | null | undefined = [];
+
+  function handleButtonAddPressInOut() {
+    setButtonAddPressed((prevState) => !prevState);
+  }
 
   return (
     <View style={styles.screen}>
@@ -30,7 +37,15 @@ export function Home() {
             placeholder="Adicione uma nova tarefa"
             placeholderTextColor="#808080"
           />
-          <TouchableOpacity style={styles.buttonAdd}>
+          <TouchableOpacity
+            style={[
+              styles.buttonAdd,
+              buttonAdPressed ? styles.buttonAddPressed : null,
+            ]}
+            activeOpacity={1}
+            onPressIn={handleButtonAddPressInOut}
+            onPressOut={handleButtonAddPressInOut}
+          >
             <Image source={BtnAddPNG} />
           </TouchableOpacity>
         </View>

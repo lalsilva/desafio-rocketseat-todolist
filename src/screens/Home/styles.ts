@@ -38,6 +38,9 @@ export const styles = StyleSheet.create({
         backgroundColor: "#1E6F9F",
         borderRadius: 6,
     },
+    buttonAddPressed: {
+        backgroundColor: "#4EA8DE",
+    },
     createDone: {
         paddingTop: 32,
         paddingBottom: 20,
