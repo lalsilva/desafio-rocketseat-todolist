@@ -27,15 +27,13 @@ export function Home() {
     },
     {
       id: 2,
-      description:
-        "Segundo item. Integer urna neque turpis turpis semper.",
+      description: "Segundo item. Integer urna neque turpis turpis semper.",
       closed: false,
       dateClosed: null,
     },
     {
       id: 3,
-      description:
-        "Terceiro item. Integer urna interdum neque turpis turpis.",
+      description: "Terceiro item. Integer urna interdum neque turpis turpis.",
       closed: false,
       dateClosed: null,
     },
@@ -48,15 +46,17 @@ export function Home() {
 
   function handleTaskClose(task: any) {
     setTasks((prevState) => {
+      const { id, closed } = task;
+
       // Filtra a lista retirando a tarefa a ser fechada
-      let tasks = prevState.filter((item) => item.id !== task.id);
+      let tasks = prevState.filter((item) => item.id !== id);
       // Adiciona a tarefa fechada à lista filtrada
       tasks = [
         ...tasks,
         {
           ...task,
-          closed: !task.closed,
-          dateClosed: !task.closed ? Date.now() : null,
+          closed: !closed,
+          dateClosed: !closed ? Date.now() : null,
         },
       ];
       // Retorna a lista ordenada pela data de fechamento
