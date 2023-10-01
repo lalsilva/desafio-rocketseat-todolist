@@ -9,7 +9,10 @@ import {
 } from "react-native";
 import { useState } from "react";
 
+import uuid from "react-native-uuid";
+
 import { Task } from "../../components/Task";
+import { TTask } from "../../types/task.type";
 import { stylesDefault } from "../../styles";
 import { styles } from "./styles";
 
@@ -18,34 +21,45 @@ const BtnAdd = require("../../../assets/btn-add.png");
 const ListEmptyIcon = require("../../../assets/list-empty-icon.png");
 
 export function Home() {
-  const [tasks, setTasks] = useState<any[]>([
-    {
-      id: 1,
-      description:
-        "Primeiro item. Integer urna interdum massa libero auctor neque.",
-      closed: false,
-      dateClosed: null,
-    },
-    {
-      id: 2,
-      description: "Segundo item. Integer urna neque turpis turpis semper.",
-      closed: false,
-      dateClosed: null,
-    },
-    {
-      id: 3,
-      description: "Terceiro item. Integer urna interdum neque turpis turpis.",
-      closed: false,
-      dateClosed: null,
-    },
-  ]);
+  const [tasks, setTasks] = useState<TTask[]>([]);
+  const [taskDescription, setTaskDescription] = useState("");
   const [buttonAddPressed, setButtonAddPressed] = useState(false);
 
-  function handleButtonAddPressInOut() {
+  function handleButtonAddPressIn() {
     setButtonAddPressed((prevState) => !prevState);
   }
 
-  function handleTaskClose(task: any) {
+  function handleButtonAddPressInOut() {
+    handleButtonAddPressIn();
+
+    const description = taskDescription.trim();
+    const task: TTask = {
+      id: uuid.v4().toString(),
+      description,
+      dateCreated: Date.now(),
+      closed: false,
+      dateClosed: null,
+    };
+
+    if (description.length === 0) {
+      return Alert.alert(
+        "Tarefa Inválida!",
+        "É necessária uma descrição para a tarefa."
+      );
+    }
+
+    if (tasks.filter((task) => task.description === description).length > 0) {
+      return Alert.alert(
+        "Tarefa Existente!",
+        "Já foi adicionada uma tarefa com essa descrição."
+      );
+    }
+
+    setTasks((prevState) => [...prevState, task]);
+    setTaskDescription("");
+  }
+
+  function handleTaskClose(task: TTask) {
     setTasks((prevState) => {
       const { id, closed } = task;
 
@@ -92,6 +106,8 @@ export function Home() {
             style={styles.input}
             placeholder="Adicione uma nova tarefa"
             placeholderTextColor="#808080"
+            onChangeText={setTaskDescription}
+            value={taskDescription}
           />
           <TouchableOpacity
             style={[
@@ -99,7 +115,7 @@ export function Home() {
               buttonAddPressed ? styles.buttonAddPressed : null,
             ]}
             activeOpacity={1}
-            onPressIn={handleButtonAddPressInOut}
+            onPressIn={handleButtonAddPressIn}
             onPressOut={handleButtonAddPressInOut}
           >
             <Image source={BtnAdd} />
