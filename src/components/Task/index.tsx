@@ -15,7 +15,11 @@ type Props = {
   onRemove: () => void;
 };
 
-export function Task({ task, onClose, onRemove }: Props) {
+export function Task({
+  task: { closed, description },
+  onClose,
+  onRemove,
+}: Props) {
   const [buttonRemovePressed, setButtonRemovePressed] = useState(false);
 
   function handleButtonCloseTaskPress() {
@@ -35,7 +39,7 @@ export function Task({ task, onClose, onRemove }: Props) {
     <View style={styles.task}>
       <View style={[stylesDefault.row, styles.taskRow]}>
         <TouchableOpacity onPress={handleButtonCloseTaskPress}>
-          {!task.closed ? (
+          {!closed ? (
             <View style={[styles.taskIcon, styles.taskIconOpened]}></View>
           ) : (
             <Image style={styles.taskIcon} source={TaskIconClosed} />
@@ -44,10 +48,10 @@ export function Task({ task, onClose, onRemove }: Props) {
         <Text
           style={[
             styles.taskDescription,
-            task.closed ? styles.taskDescriptionClosed : null,
+            closed ? styles.taskDescriptionClosed : null,
           ]}
         >
-          {task.description}
+          {description}
         </Text>
         <TouchableOpacity
           style={[

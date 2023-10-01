@@ -60,9 +60,9 @@ export function Home() {
   }
 
   function handleTaskClose(task: TTask) {
-    setTasks((prevState) => {
-      const { id, closed } = task;
+    const { id, closed } = task;
 
+    setTasks((prevState) => {
       // Filtra a lista retirando a tarefa a ser fechada
       let tasks = prevState.filter((item) => item.id !== id);
       // Adiciona a tarefa fechada à lista filtrada
