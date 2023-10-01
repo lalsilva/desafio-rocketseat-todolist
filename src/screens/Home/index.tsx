@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import uuid from "react-native-uuid";
 
@@ -15,6 +15,7 @@ import { Task } from "../../components/Task";
 import { TTask } from "../../types/task.type";
 import { stylesDefault } from "../../styles";
 import { styles } from "./styles";
+import { Counter } from "../../components/Counter";
 
 const Logo = require("../../../assets/logo.png");
 const BtnAdd = require("../../../assets/btn-add.png");
@@ -23,6 +24,8 @@ const ListEmptyIcon = require("../../../assets/list-empty-icon.png");
 export function Home() {
   const [tasks, setTasks] = useState<TTask[]>([]);
   const [taskDescription, setTaskDescription] = useState("");
+  const [tasksCreated, setTasksCreated] = useState<TTask[]>([]);
+  const [tasksClosed, setTasksClosed] = useState<TTask[]>([]);
   const [buttonAddPressed, setButtonAddPressed] = useState(false);
 
   function handleButtonAddPressIn() {
@@ -93,6 +96,11 @@ export function Home() {
     ]);
   }
 
+  useEffect(() => {
+    setTasksCreated(tasks.filter((task) => !task.closed));
+    setTasksClosed(tasks.filter((task) => task.closed));
+  }, [tasks]);
+
   return (
     <View style={styles.screen}>
       <View style={styles.header}>
@@ -129,22 +137,16 @@ export function Home() {
             tasks.length > 0 ? stylesDefault.noBorder : null,
           ]}
         >
-          {/* Criadas */}
-          <View style={stylesDefault.row}>
-            <Text style={[styles.createText, stylesDefault.bold]}>Criadas</Text>
-            <Text style={[styles.createDoneCounter, stylesDefault.bold]}>
-              0
-            </Text>
-          </View>
-          {/* Concluídas */}
-          <View style={stylesDefault.row}>
-            <Text style={[styles.doneText, stylesDefault.bold]}>
-              Concluídas
-            </Text>
-            <Text style={[styles.createDoneCounter, stylesDefault.bold]}>
-              0
-            </Text>
-          </View>
+          <Counter
+            text="Criadas"
+            textStyles={styles.createText}
+            counter={tasksCreated.length}
+          />
+          <Counter
+            text="Concluídas"
+            textStyles={styles.doneText}
+            counter={tasksClosed.length}
+          />
         </View>
         {/* Lista de tarefas */}
         <FlatList

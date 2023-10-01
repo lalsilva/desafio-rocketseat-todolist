@@ -49,15 +49,6 @@ export const styles = StyleSheet.create({
         color: "#4EA8DE",
         fontSize: 14,
     },
-    createDoneCounter: {
-        paddingVertical: 2,
-        paddingHorizontal: 8,
-        color: "#F2F2F2",
-        fontSize: 12,
-        marginLeft: 8,
-        borderRadius: 10,
-        backgroundColor: "#333",
-    },
     doneText: {
         color: "#8284FA",
         fontSize: 14,
