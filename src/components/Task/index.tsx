@@ -11,17 +11,23 @@ const TrashIconHover = require("../../../assets/trash-icon-hover.png");
 type Props = {
   item: any;
   onClose: () => void;
+  onRemove: () => void;
 };
 
-export function Task({ item, onClose }: Props) {
+export function Task({ item, onClose, onRemove }: Props) {
   const [buttonRemovePressed, setButtonRemovePressed] = useState(false);
-
-  function handleButtonRemovePressInOut() {
-    setButtonRemovePressed((prevState) => !prevState);
-  }
 
   function handleButtonCloseTaskPress() {
     onClose();
+  }
+
+  function handleButtonRemovePressIn() {
+    setButtonRemovePressed((prevState) => !prevState);
+  }
+
+  function handleButtonRemovePressOut() {
+    handleButtonRemovePressIn();
+    onRemove();
   }
 
   return (
@@ -48,8 +54,8 @@ export function Task({ item, onClose }: Props) {
             buttonRemovePressed ? styles.buttonRemovePressed : null,
           ]}
           activeOpacity={1}
-          onPressIn={handleButtonRemovePressInOut}
-          onPressOut={handleButtonRemovePressInOut}
+          onPressIn={handleButtonRemovePressIn}
+          onPressOut={handleButtonRemovePressOut}
         >
           <Image source={!buttonRemovePressed ? TrashIcon : TrashIconHover} />
         </TouchableOpacity>

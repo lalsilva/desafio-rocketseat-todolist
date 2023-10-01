@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   Image,
   Text,
@@ -64,6 +65,20 @@ export function Home() {
     });
   }
 
+  function handleTaskRemove({ id, description }: any) {
+    Alert.alert("Remover Tarefa", `Deseja remover a tarefa: ${description}?`, [
+      {
+        text: "Sim",
+        onPress: () =>
+          setTasks((prevState) => prevState.filter((task) => task.id !== id)),
+      },
+      {
+        text: "Não",
+        style: "cancel",
+      },
+    ]);
+  }
+
   return (
     <View style={styles.screen}>
       <View style={styles.header}>
@@ -120,7 +135,11 @@ export function Home() {
           data={tasks}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <Task item={item} onClose={() => handleTaskClose(item)} />
+            <Task
+              item={item}
+              onClose={() => handleTaskClose(item)}
+              onRemove={() => handleTaskRemove(item)}
+            />
           )}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={() => (
