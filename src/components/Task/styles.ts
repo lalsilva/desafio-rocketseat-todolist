@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
         alignItems: "center",
     },
     taskIcon: {
-        marginRight: 15,
+        marginRight: 12,
     },
     taskIconOpened: {
         width: 17,
@@ -36,14 +36,19 @@ export const styles = StyleSheet.create({
         color: "#808080",
         textDecorationLine: "line-through",
     },
-    taskRemove: {
-        width: 32,
-        height: 32,
-        alignItems: "center",
-        justifyContent: "center",
-    },
     taskRemoveClosed: {
         borderRadius: 4,
         backgroundColor: "#333"
+    },
+    buttonRemove: {
+        width: 32,
+        height: 32,
+        marginLeft: 8,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 4,
+    },
+    buttonRemovePressed: {
+        backgroundColor: "#333",
     },
 })

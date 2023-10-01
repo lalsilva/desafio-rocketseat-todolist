@@ -6,6 +6,7 @@ import { styles } from "./styles";
 
 const TaskIconClosed = require("../../../assets/task-icon-closed.png");
 const TrashIcon = require("../../../assets/trash-icon.png");
+const TrashIconHover = require("../../../assets/trash-icon-hover.png");
 
 type Props = {
   item: any;
@@ -13,6 +14,12 @@ type Props = {
 };
 
 export function Task({ item, onClose }: Props) {
+  const [buttonRemovePressed, setButtonRemovePressed] = useState(false);
+
+  function handleButtonRemovePressInOut() {
+    setButtonRemovePressed((prevState) => !prevState);
+  }
+
   function handleButtonCloseTaskPress() {
     onClose();
   }
@@ -20,9 +27,7 @@ export function Task({ item, onClose }: Props) {
   return (
     <View style={styles.task}>
       <View style={[stylesDefault.row, styles.taskRow]}>
-        <TouchableOpacity
-          onPress={handleButtonCloseTaskPress}
-        >
+        <TouchableOpacity onPress={handleButtonCloseTaskPress}>
           {!item.closed ? (
             <View style={[styles.taskIcon, styles.taskIconOpened]}></View>
           ) : (
@@ -37,8 +42,16 @@ export function Task({ item, onClose }: Props) {
         >
           {item.description}
         </Text>
-        <TouchableOpacity style={styles.taskRemove}>
-          <Image source={TrashIcon} />
+        <TouchableOpacity
+          style={[
+            styles.buttonRemove,
+            buttonRemovePressed ? styles.buttonRemovePressed : null,
+          ]}
+          activeOpacity={1}
+          onPressIn={handleButtonRemovePressInOut}
+          onPressOut={handleButtonRemovePressInOut}
+        >
+          <Image source={!buttonRemovePressed ? TrashIcon : TrashIconHover} />
         </TouchableOpacity>
       </View>
     </View>

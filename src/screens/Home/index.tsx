@@ -28,14 +28,14 @@ export function Home() {
     {
       id: 2,
       description:
-        "Segundo item. Integer urna interdum neque turpis turpis semper.",
+        "Segundo item. Integer urna neque turpis turpis semper.",
       closed: false,
       dateClosed: null,
     },
     {
       id: 3,
       description:
-        "Terceiro item. Integer urna interdum neque turpis turpis semper.",
+        "Terceiro item. Integer urna interdum neque turpis turpis.",
       closed: false,
       dateClosed: null,
     },
