@@ -152,7 +152,7 @@ export function Home() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Task
-              item={item}
+              task={item}
               onClose={() => handleTaskClose(item)}
               onRemove={() => handleTaskRemove(item)}
             />
