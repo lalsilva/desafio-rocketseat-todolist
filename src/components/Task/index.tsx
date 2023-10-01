@@ -1,4 +1,5 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
 
 import { stylesDefault } from "../../styles";
 import { styles } from "./styles";
@@ -8,13 +9,20 @@ const TrashIcon = require("../../../assets/trash-icon.png");
 
 type Props = {
   item: any;
+  onClose: () => void;
 };
 
-export function Task({ item }: Props) {
+export function Task({ item, onClose }: Props) {
+  function handleButtonCloseTaskPress() {
+    onClose();
+  }
+
   return (
     <View style={styles.task}>
       <View style={[stylesDefault.row, styles.taskRow]}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleButtonCloseTaskPress}
+        >
           {!item.closed ? (
             <View style={[styles.taskIcon, styles.taskIconOpened]}></View>
           ) : (

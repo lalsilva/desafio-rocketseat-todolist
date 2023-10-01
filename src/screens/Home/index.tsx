@@ -17,25 +17,51 @@ const BtnAdd = require("../../../assets/btn-add.png");
 const ListEmptyIcon = require("../../../assets/list-empty-icon.png");
 
 export function Home() {
-  const [buttonAddPressed, setButtonAddPressed] = useState(false);
-
-  const tasks: Array<any> | null | undefined = [
+  const [tasks, setTasks] = useState<any[]>([
     {
       id: 1,
       description:
-        "Integer urna interdum massa libero auctor neque turpis turpis semper.",
+        "Primeiro item. Integer urna interdum massa libero auctor neque.",
       closed: false,
+      dateClosed: null,
     },
     {
       id: 2,
       description:
-        "Integer urna interdum massa libero auctor neque turpis turpis semper.",
-      closed: true,
+        "Segundo item. Integer urna interdum neque turpis turpis semper.",
+      closed: false,
+      dateClosed: null,
     },
-  ];
+    {
+      id: 3,
+      description:
+        "Terceiro item. Integer urna interdum neque turpis turpis semper.",
+      closed: false,
+      dateClosed: null,
+    },
+  ]);
+  const [buttonAddPressed, setButtonAddPressed] = useState(false);
 
   function handleButtonAddPressInOut() {
     setButtonAddPressed((prevState) => !prevState);
+  }
+
+  function handleTaskClose(task: any) {
+    setTasks((prevState) => {
+      // Filtra a lista retirando a tarefa a ser fechada
+      let tasks = prevState.filter((item) => item.id !== task.id);
+      // Adiciona a tarefa fechada à lista filtrada
+      tasks = [
+        ...tasks,
+        {
+          ...task,
+          closed: !task.closed,
+          dateClosed: !task.closed ? Date.now() : null,
+        },
+      ];
+      // Retorna a lista ordenada pela data de fechamento
+      return tasks;
+    });
   }
 
   return (
@@ -93,7 +119,9 @@ export function Home() {
         <FlatList
           data={tasks}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Task item={item} />}
+          renderItem={({ item }) => (
+            <Task item={item} onClose={() => handleTaskClose(item)} />
+          )}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={() => (
             <View style={styles.emptyList}>
