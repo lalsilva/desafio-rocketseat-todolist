@@ -79,7 +79,7 @@ export function Home() {
     });
   }
 
-  function handleTaskRemove({ id, description }: any) {
+  function handleTaskRemove({ id, description }: TTask) {
     Alert.alert("Remover Tarefa", `Deseja remover a tarefa: ${description}?`, [
       {
         text: "Sim",
