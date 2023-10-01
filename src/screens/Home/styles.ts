@@ -66,4 +66,9 @@ export const styles = StyleSheet.create({
         color: "#808080",
         fontFamily: "Inter-Regular",
     },
+    sectionTtitle: {
+        color: "#1E6F9F",
+        fontSize: 14,
+        marginBottom: 10
+    },
 });

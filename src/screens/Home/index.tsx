@@ -1,7 +1,7 @@
 import {
   Alert,
-  FlatList,
   Image,
+  SectionList,
   Text,
   TextInput,
   TouchableOpacity,
@@ -26,6 +26,7 @@ export function Home() {
   const [taskDescription, setTaskDescription] = useState("");
   const [tasksCreated, setTasksCreated] = useState<TTask[]>([]);
   const [tasksClosed, setTasksClosed] = useState<TTask[]>([]);
+  const [sectionsOfTasks, setSectionsOfTasks] = useState<any[]>([]);
   const [buttonAddPressed, setButtonAddPressed] = useState(false);
 
   function handleButtonAddPressIn() {
@@ -41,7 +42,7 @@ export function Home() {
       description,
       dateCreated: Date.now(),
       closed: false,
-      dateClosed: null,
+      dateClosed: 0,
     };
 
     if (description.length === 0) {
@@ -74,7 +75,7 @@ export function Home() {
         {
           ...task,
           closed: !closed,
-          dateClosed: !closed ? Date.now() : null,
+          dateClosed: !closed ? Date.now() : 0,
         },
       ];
       // Retorna a lista ordenada pela data de fechamento
@@ -100,6 +101,26 @@ export function Home() {
     setTasksCreated(tasks.filter((task) => !task.closed));
     setTasksClosed(tasks.filter((task) => task.closed));
   }, [tasks]);
+
+  useEffect(() => {
+    const sections: Array<any> = [];
+
+    if (tasksCreated.length > 0) {
+      sections.push({
+        title: "Tarefas Criadas",
+        data: tasksCreated.sort((a, b) => b.dateCreated - a.dateCreated),
+      });
+    }
+
+    if (tasksClosed.length > 0) {
+      sections.push({
+        title: "Tarefas Concluídas",
+        data: tasksClosed.sort((a, b) => b.dateClosed - a.dateClosed),
+      });
+    }
+
+    setSectionsOfTasks(sections);
+  }, [tasksCreated, tasksClosed]);
 
   return (
     <View style={styles.screen}>
@@ -149,9 +170,9 @@ export function Home() {
           />
         </View>
         {/* Lista de tarefas */}
-        <FlatList
-          data={tasks}
-          keyExtractor={(item) => item.id}
+        <SectionList
+          sections={sectionsOfTasks}
+          keyExtractor={(item, index) => item + index}
           renderItem={({ item }) => (
             <Task
               task={item}
@@ -159,7 +180,11 @@ export function Home() {
               onRemove={() => handleTaskRemove(item)}
             />
           )}
-          showsVerticalScrollIndicator={false}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text style={[styles.sectionTtitle, stylesDefault.bold]}>
+              {title}
+            </Text>
+          )}
           ListEmptyComponent={() => (
             <View style={styles.emptyList}>
               <Image style={styles.emptyListIcon} source={ListEmptyIcon} />
@@ -171,7 +196,7 @@ export function Home() {
               </Text>
             </View>
           )}
-        ></FlatList>
+        ></SectionList>
       </View>
     </View>
   );

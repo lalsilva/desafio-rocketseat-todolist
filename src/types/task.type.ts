@@ -3,5 +3,5 @@ export type TTask = {
     description: string;
     dateCreated: number;
     closed: boolean;
-    dateClosed: number | null;
+    dateClosed: number;
 }
