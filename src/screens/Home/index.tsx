@@ -11,11 +11,11 @@ import { useEffect, useState } from "react";
 
 import uuid from "react-native-uuid";
 
-import { Task } from "../../components/Task";
-import { TTask } from "../../types/task.type";
 import { stylesDefault } from "../../styles";
 import { styles } from "./styles";
 import { Counter } from "../../components/Counter";
+import { Task } from "../../components/Task";
+import { TTask } from "../../components/Task/index.types";
 
 const Logo = require("../../../assets/logo.png");
 const BtnAdd = require("../../../assets/btn-add.png");

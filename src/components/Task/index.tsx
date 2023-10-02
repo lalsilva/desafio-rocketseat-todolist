@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { stylesDefault } from "../../styles";
 import { styles } from "./styles";
-import { TTask } from "../../types/task.type";
+import { TTask } from "./index.types";
 
 const TaskIconClosed = require("../../../assets/task-icon-closed.png");
 const TrashIcon = require("../../../assets/trash-icon.png");
