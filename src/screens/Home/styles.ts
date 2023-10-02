@@ -3,13 +3,14 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
     screen: {
         flex: 1,
+        backgroundColor: "#0D0D0D",
     },
     header: {
         height: 173,
         paddingHorizontal: 24,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#0D0D0D",
+        zIndex: 999,
     },
     headerLogoLocale: {
         width: "100%",
@@ -17,11 +18,13 @@ export const styles = StyleSheet.create({
         justifyContent: "space-between",
     },
     content: {
-        marginTop: -28,
+        flex: 1,
         paddingHorizontal: 24,
+        backgroundColor: "#1A1A1A",
     },
     input: {
         flex: 1,
+        marginTop: -28,
         paddingHorizontal: 16,
         height: 54,
         marginRight: 8,
@@ -34,6 +37,7 @@ export const styles = StyleSheet.create({
         backgroundColor: "#262626",
     },
     buttonAdd: {
+        marginTop: -28,
         width: 52,
         height: 52,
         alignItems: "center",
