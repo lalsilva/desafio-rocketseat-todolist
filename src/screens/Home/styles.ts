@@ -6,9 +6,15 @@ export const styles = StyleSheet.create({
     },
     header: {
         height: 173,
+        paddingHorizontal: 24,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#0D0D0D",
+    },
+    headerLogoLocale: {
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "space-between",
     },
     content: {
         marginTop: -28,

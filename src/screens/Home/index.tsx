@@ -11,6 +11,13 @@ import { useEffect, useState } from "react";
 
 import uuid from "react-native-uuid";
 
+import * as Localization from "expo-localization";
+import { I18n } from "i18n-js";
+
+/* Idiomas */
+import { ptBR } from "../../i18n/pt-BR";
+import { en } from "../../i18n/en";
+
 import { stylesDefault } from "../../styles";
 import { styles } from "./styles";
 import { Counter } from "../../components/Counter";
@@ -18,17 +25,29 @@ import { Task } from "../../components/Task";
 import { TTask } from "../../components/Task/index.types";
 import { TSection } from "./index.types";
 
-const Logo = require("../../../assets/logo.png");
-const BtnAdd = require("../../../assets/btn-add.png");
-const ListEmptyIcon = require("../../../assets/list-empty-icon.png");
-
 export function Home() {
+  const [locale, setLocale] = useState(Localization.locale);
+
+  const translations = {
+    ...ptBR,
+    ...en,
+  };
+
+  const i18n = new I18n(translations);
+  i18n.enableFallback = true;
+  i18n.defaultLocale = "pt-BR";
+  i18n.locale = locale;
+
   const [tasks, setTasks] = useState<TTask[]>([]);
   const [taskDescription, setTaskDescription] = useState("");
   const [tasksCreated, setTasksCreated] = useState<TTask[]>([]);
   const [tasksClosed, setTasksClosed] = useState<TTask[]>([]);
   const [sectionsOfTasks, setSectionsOfTasks] = useState<any[]>([]);
   const [buttonAddPressed, setButtonAddPressed] = useState(false);
+
+  const Logo = require("../../../assets/logo.png");
+  const BtnAdd = require("../../../assets/btn-add.png");
+  const ListEmptyIcon = require("../../../assets/list-empty-icon.png");
 
   function handleButtonAddPressIn() {
     setButtonAddPressed((prevState) => !prevState);
@@ -108,14 +127,14 @@ export function Home() {
 
     if (tasksCreated.length > 0) {
       sections.push({
-        title: "Tarefas Criadas",
+        title: i18n.t("created tasks"),
         data: tasksCreated.sort((a, b) => b.dateCreated - a.dateCreated),
       });
     }
 
     if (tasksClosed.length > 0) {
       sections.push({
-        title: "Tarefas Concluídas",
+        title: i18n.t("completed tasks"),
         data: tasksClosed.sort((a, b) => b.dateClosed - a.dateClosed),
       });
     }
@@ -126,7 +145,11 @@ export function Home() {
   return (
     <View style={styles.screen}>
       <View style={styles.header}>
-        <Image source={Logo} />
+        <View style={[stylesDefault.row, styles.headerLogoLocale]}>
+          <Image source={Logo} />
+          {/* TODO Substituir por bandeira, mostrando que é possível mudar o idioma do app */}
+          <Text style={{ color: "white" }}>{locale}</Text>
+        </View>
       </View>
 
       <View style={styles.content}>
@@ -134,7 +157,7 @@ export function Home() {
         <View style={stylesDefault.row}>
           <TextInput
             style={styles.input}
-            placeholder="Adicione uma nova tarefa"
+            placeholder={i18n.t("add a new task")}
             placeholderTextColor="#808080"
             onChangeText={setTaskDescription}
             value={taskDescription}
@@ -160,12 +183,12 @@ export function Home() {
           ]}
         >
           <Counter
-            text="Criadas"
+            text={i18n.t("created")}
             textStyles={styles.createText}
             counter={tasksCreated.length}
           />
           <Counter
-            text="Concluídas"
+            text={i18n.t("closed")}
             textStyles={styles.doneText}
             counter={tasksClosed.length}
           />
@@ -190,10 +213,10 @@ export function Home() {
             <View style={styles.emptyList}>
               <Image style={styles.emptyListIcon} source={ListEmptyIcon} />
               <Text style={[styles.emptyListText, stylesDefault.bold]}>
-                Você ainda não tem tarefas cadastradas
+                {i18n.t("you don't have tasks registered yet")}
               </Text>
               <Text style={styles.emptyListText}>
-                Crie tarefas e organize seus itens a fazer
+                {i18n.t("create tasks and organize your to-do items")}
               </Text>
             </View>
           )}
