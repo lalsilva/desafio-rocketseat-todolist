@@ -16,6 +16,7 @@ import { styles } from "./styles";
 import { Counter } from "../../components/Counter";
 import { Task } from "../../components/Task";
 import { TTask } from "../../components/Task/index.types";
+import { TSection } from "./index.types";
 
 const Logo = require("../../../assets/logo.png");
 const BtnAdd = require("../../../assets/btn-add.png");
@@ -103,7 +104,7 @@ export function Home() {
   }, [tasks]);
 
   useEffect(() => {
-    const sections: Array<any> = [];
+    const sections: Array<TSection> = [];
 
     if (tasksCreated.length > 0) {
       sections.push({
