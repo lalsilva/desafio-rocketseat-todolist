@@ -14,12 +14,8 @@ import * as Localization from "expo-localization";
 import { I18n } from "i18n-js";
 
 /* Idiomas */
-/* Português (Brasileiro) */
-import { ptBR } from "../../i18n/locales/pt_BR/pt-BR";
-import { FlagBR } from "../../i18n/locales/pt_BR/flag";
-/* Inglês (Estados Unidos) */
-import { en } from "../../i18n/locales/en/en";
-import { FlagEUA } from "../../i18n/locales/en/flag";
+import { ptBR } from "../../i18n/locale.pt-BR";
+import { en } from "../../i18n/locale.en";
 
 import { stylesDefault } from "../../styles";
 import { styles } from "./styles";
@@ -27,10 +23,10 @@ import { Counter } from "../../components/Counter";
 import { Task } from "../../components/Task";
 import { TTask } from "../../components/Task/index.types";
 import { TSection } from "./index.types";
+import { Locale } from "../../components/Locale";
 
 export function Home() {
   const [locale, setLocale] = useState(Localization.locale);
-  const [localeIsOpened, setLocaleIsOpened] = useState(false);
 
   const translations = {
     ...ptBR,
@@ -123,7 +119,6 @@ export function Home() {
 
   function handleLocaleChange(locale: string) {
     setLocale(locale);
-    setLocaleIsOpened(false);
   }
 
   useEffect(() => {
@@ -156,73 +151,10 @@ export function Home() {
       <View style={styles.header}>
         <View style={[stylesDefault.row, styles.headerLogoLocale]}>
           <Image source={Logo} />
-          <View
-            style={{
-              position: "absolute",
-              alignSelf: "stretch",
-              alignItems: "flex-end",
-              right: 0,
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => setLocaleIsOpened((prevState) => !prevState)}
-            >
-              {locale === "pt-BR" ? (
-                <FlagBR width={32} height={32} />
-              ) : locale === "en" ? (
-                <FlagEUA width={32} height={32} />
-              ) : // TODO Colocar uma imagem neutra para o usuário entender que existem outros idiomas
-              null}
-            </TouchableOpacity>
-            {localeIsOpened && (
-              <View
-                style={{
-                  marginTop: 8,
-                  padding: 12,
-                  borderWidth: 1,
-                  borderColor: "#0D0D0D",
-                  borderRadius: 4,
-                  backgroundColor: "#1A1A1A",
-                }}
-              >
-                <TouchableOpacity onPress={() => handleLocaleChange("pt-BR")}>
-                  <View
-                    style={[
-                      stylesDefault.row,
-                      { alignItems: "center", marginBottom: 12 },
-                    ]}
-                  >
-                    <FlagBR width={24} height={24} style={{ marginRight: 8 }} />
-                    <Text
-                      style={{
-                        color: locale === "pt-BR" ? "#D9D9D9" : "#808080",
-                        fontFamily: "Inter-Regular",
-                      }}
-                    >
-                      Português (Brasileiro)
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleLocaleChange("en")}>
-                  <View style={[stylesDefault.row, { alignItems: "center" }]}>
-                    <FlagEUA
-                      width={24}
-                      height={24}
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text
-                      style={{
-                        color: locale === "en" ? "#D9D9D9" : "#808080",
-                        fontFamily: "Inter-Regular",
-                      }}
-                    >
-                      Inlgês (Estados Unidos)
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
+          <Locale
+            locale={locale}
+            onLocaleChange={handleLocaleChange}
+          />
         </View>
       </View>
 
