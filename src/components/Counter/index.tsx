@@ -13,9 +13,9 @@ export function Counter({ text, textStyles, counter }: Props) {
   return (
     <View style={stylesDefault.row}>
       <Text style={[textStyles, stylesDefault.bold]}>{text}</Text>
-      <Text style={[styles.backgroundCounter, stylesDefault.bold]}>
-        {counter}
-      </Text>
+      <View style={styles.background}>
+        <Text style={[styles.text, stylesDefault.bold]}>{counter}</Text>
+      </View>
     </View>
   );
 }
