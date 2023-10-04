@@ -11,11 +11,6 @@ import uuid from "react-native-uuid";
 import { useEffect, useState } from "react";
 
 import * as Localization from "expo-localization";
-import { I18n } from "i18n-js";
-
-/* Idiomas */
-import { ptBR } from "../../i18n/locale.pt-BR";
-import { en } from "../../i18n/locale.en";
 
 import { stylesDefault } from "../../styles";
 import { styles } from "./styles";
@@ -24,19 +19,10 @@ import { Task } from "../../components/Task";
 import { TTask } from "../../components/Task/index.types";
 import { TSection } from "./index.types";
 import { Locale } from "../../components/Locale";
+import { changeLocale, translate } from "../../i18n";
 
 export function Home() {
   const [locale, setLocale] = useState(Localization.locale);
-
-  const translations = {
-    ...ptBR,
-    ...en,
-  };
-
-  const i18n = new I18n(translations);
-  i18n.enableFallback = true;
-  i18n.defaultLocale = "pt-BR";
-  i18n.locale = locale;
 
   const [tasks, setTasks] = useState<TTask[]>([]);
   const [taskDescription, setTaskDescription] = useState("");
@@ -67,15 +53,15 @@ export function Home() {
 
     if (description.length === 0) {
       return Alert.alert(
-        "Tarefa Inválida!",
-        "É necessária uma descrição para a tarefa."
+        translate("invalid task"),
+        translate("a description for the task is required")
       );
     }
 
     if (tasks.filter((task) => task.description === description).length > 0) {
       return Alert.alert(
-        "Tarefa Existente!",
-        "Já foi adicionada uma tarefa com essa descrição."
+        translate("existing task"),
+        translate("a task with this description has already been added")
       );
     }
 
@@ -104,21 +90,26 @@ export function Home() {
   }
 
   function handleTaskRemove({ id, description }: TTask) {
-    Alert.alert("Remover Tarefa", `Deseja remover a tarefa: ${description}?`, [
-      {
-        text: "Sim",
-        onPress: () =>
-          setTasks((prevState) => prevState.filter((task) => task.id !== id)),
-      },
-      {
-        text: "Não",
-        style: "cancel",
-      },
-    ]);
+    Alert.alert(
+      translate("remove task"),
+      `${translate("do you want to remove the task")}: ${description}?`,
+      [
+        {
+          text: translate("yes"),
+          onPress: () =>
+            setTasks((prevState) => prevState.filter((task) => task.id !== id)),
+        },
+        {
+          text: translate("no"),
+          style: "cancel",
+        },
+      ]
+    );
   }
 
   function handleLocaleChange(locale: string) {
     setLocale(locale);
+    changeLocale(locale);
   }
 
   useEffect(() => {
@@ -131,30 +122,27 @@ export function Home() {
 
     if (tasksCreated.length > 0) {
       sections.push({
-        title: i18n.t("created tasks"),
+        title: translate("created tasks"),
         data: tasksCreated.sort((a, b) => b.dateCreated - a.dateCreated),
       });
     }
 
     if (tasksClosed.length > 0) {
       sections.push({
-        title: i18n.t("completed tasks"),
+        title: translate("completed tasks"),
         data: tasksClosed.sort((a, b) => b.dateClosed - a.dateClosed),
       });
     }
 
     setSectionsOfTasks(sections);
-  }, [tasksCreated, tasksClosed]);
+  }, [tasksCreated, tasksClosed, locale]);
 
   return (
     <View style={styles.screen}>
       <View style={styles.header}>
         <View style={[stylesDefault.row, styles.headerLogoLocale]}>
           <Image source={Logo} />
-          <Locale
-            locale={locale}
-            onLocaleChange={handleLocaleChange}
-          />
+          <Locale locale={locale} onLocaleChange={handleLocaleChange} />
         </View>
       </View>
 
@@ -163,7 +151,7 @@ export function Home() {
         <View style={stylesDefault.row}>
           <TextInput
             style={styles.input}
-            placeholder={i18n.t("add a new task")}
+            placeholder={translate("add a new task")}
             placeholderTextColor="#808080"
             onChangeText={setTaskDescription}
             value={taskDescription}
@@ -189,12 +177,12 @@ export function Home() {
           ]}
         >
           <Counter
-            text={i18n.t("created")}
+            text={translate("created")}
             textStyles={styles.createText}
             counter={tasksCreated.length}
           />
           <Counter
-            text={i18n.t("closed")}
+            text={translate("closed")}
             textStyles={styles.doneText}
             counter={tasksClosed.length}
           />
@@ -219,10 +207,10 @@ export function Home() {
             <View style={styles.emptyList}>
               <Image style={styles.emptyListIcon} source={ListEmptyIcon} />
               <Text style={[styles.emptyListText, stylesDefault.bold]}>
-                {i18n.t("you don't have tasks registered yet")}
+                {translate("you don't have tasks registered yet")}
               </Text>
               <Text style={styles.emptyListText}>
-                {i18n.t("create tasks and organize your to-do items")}
+                {translate("create tasks and organize your to-do items")}
               </Text>
             </View>
           )}

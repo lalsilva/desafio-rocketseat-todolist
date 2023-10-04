@@ -1,9 +1,10 @@
 import { Text, TouchableOpacity, View } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { stylesDefault } from "../../styles";
 import { styles } from "./styles";
 
+import { translate } from "../../i18n";
 import { Flag } from "../../i18n/flag";
 
 type Props = {
@@ -34,7 +35,7 @@ export function Locale({ locale, onLocaleChange }: Props) {
               <Text
                 style={[styles.text, locale === "pt-BR" ? styles.active : null]}
               >
-                Português (Brasileiro)
+                {translate("portuguese (brazil)")}
               </Text>
             </View>
           </TouchableOpacity>
@@ -44,7 +45,7 @@ export function Locale({ locale, onLocaleChange }: Props) {
               <Text
                 style={[styles.text, locale === "en" ? styles.active : null]}
               >
-                Inlgês (Estados Unidos)
+                {translate("english")}
               </Text>
             </View>
           </TouchableOpacity>
