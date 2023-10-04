@@ -1,9 +1,8 @@
 import * as Localization from "expo-localization";
 import { I18n } from "i18n-js";
 
-/* Idiomas */
-import { ptBR } from "./locale.pt-BR";
-import { en } from "./locale.en";
+import { ptBR } from "./locales/pt-BR";
+import { en } from "./locales/en";
 
 const translations = {
   ...ptBR,

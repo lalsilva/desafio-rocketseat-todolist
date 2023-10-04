@@ -5,7 +5,7 @@ import { stylesDefault } from "../../styles";
 import { styles } from "./styles";
 
 import { translate } from "../../i18n";
-import { Flag } from "../../i18n/flag";
+import { Flag } from "./flag";
 
 type Props = {
   locale: string;
